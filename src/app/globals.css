@@ -8,7 +8,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-raleway);
+  --font-sans:  sans-serif, "Raleway";
+  --color-primary: #7541FE;
+  --color-accent: #198E7B;
+  --color-cream: #FFFDEE;
+
 }
 
 @media (prefers-color-scheme: dark) {
