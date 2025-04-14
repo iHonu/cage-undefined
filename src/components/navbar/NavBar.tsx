@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
-import Button from "../ui/Button";
-import NavLink from "./NavLinks";
+import { useState } from "react";
+import MobileNav from "./MobileNav";
+import DesktopNav from "./DesktopNav";
 
 const NavBar = () => {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const transparentNavbarPaths = ["/", "/donate", "/about/team"];
   const shouldBeTransparent = transparentNavbarPaths.includes(pathname || "");
 
@@ -15,6 +15,10 @@ const NavBar = () => {
     {
       label: "Our Impact",
       href: "/our-impact",
+    },
+    {
+      label: "Services",
+      href: "/services",
     },
     {
       label: "About",
@@ -36,43 +40,18 @@ const NavBar = () => {
   ];
 
   return (
-    <nav
-      className={`
-        relative w-full py-6 px-10
-        ${
-          shouldBeTransparent
-            ? "absolute top-0 left-0 z-50 bg-[#08001E] backdrop-blur-sm"
-            : "bg-[#181818]"
-        }
-      `}
-    >
-      <div className="mx-auto flex items-center justify-between">
-        {/* Logo and Score */}
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/Logo.svg"
-            alt="Logo"
-            width={77}
-            height={54}
-            priority
-            className="w-auto h-auto"
-          />
-        </Link>
-
-        {/* Navigation Links */}
-        <div className="flex items-center space-x-8">
-          {links.map((link, index) => (
-            <NavLink
-              key={index}
-              label={link.label}
-              href={link.href}
-              dropdownItems={link.dropdownItems}
-            />
-          ))}
-        </div>
-        <Button variant="primary">Apply</Button>
+    <>
+      <div className="md:hidden">
+        <MobileNav
+          links={links}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
       </div>
-    </nav>
+      <div className="hidden md:block">
+        <DesktopNav links={links} shouldBeTransparent={shouldBeTransparent} />
+      </div>
+    </>
   );
 };
 
